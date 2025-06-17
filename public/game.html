@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Survie : Île Zéro</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('image.png') center center / cover no-repeat fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .game-container {
+      background: rgba(30,30,30,0.88);
+      padding: 2.5em 2em 2em 2em;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px #000a;
+      z-index: 1;
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .back-btn {
+      position: fixed;
+      top: 1em;
+      left: 1em;
+      padding: 10px 20px;
+      background-color: #1e1e1e;
+      color: #f2f2f2;
+      border: 2px solid #f2f2f2;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 1em;
+      font-weight: 500;
+    }
+    .back-btn:hover {
+      background-color: #f2f2f2;
+      color: #1e1e1e;
+    }
+    .menu-btn {
+      position: fixed;
+      top: 1em;
+      left: 1em;
+      width: 40px;
+      height: 40px;
+      background-color: #1e1e1e;
+      border: 2px solid #f2f2f2;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      z-index: 1000;
+    }
+    .menu-btn span {
+      width: 20px;
+      height: 2px;
+      background-color: #f2f2f2;
+      transition: all 0.3s ease;
+    }
+    .menu-btn.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-btn.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+    .menu-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .menu-content {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background: #1e1e1e;
+      padding: 80px 20px 20px;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .menu-content.active {
+      left: 0;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .menu-item {
+      display: block;
+      padding: 15px;
+      color: #f2f2f2;
+      text-decoration: none;
+      font-size: 1.1em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.2s;
+    }
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1.2em;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    .game-content {
+      width: 100%;
+      text-align: center;
+    }
+    .game-text {
+      font-size: 1.2em;
+      line-height: 1.6;
+      margin-bottom: 1.5em;
+    }
+    .choices-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .choice-btn {
+      padding: 1em 2em;
+      font-size: 1.1em;
+      background: #4caf50;
+      color: #232323;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .choice-btn:hover {
+      background: #45a049;
+    }
+    body.fade-in {
+      opacity: 0;
+      transition: opacity 1.2s;
+    }
+    body.fade-in.visible {
+      opacity: 1;
+    }
+    /* Styles pour la barre de vie */
+    .health-container {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+    .stats-container {
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      z-index: 1000;
+    }
+    .stat-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 0.5em 1em;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+    .health-icon {
+      color: #ff4444;
+      font-size: 1.5em;
+      animation: pulse 1.5s infinite;
+    }
+    .energy-icon {
+      color: #ffd700;
+      font-size: 1.5em;
+      animation: pulse 1.5s infinite;
+    }
+    .stat-bar-container {
+      width: 150px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .health-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff4444, #ff6b6b);
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+    .energy-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffd700, #ffeb3b);
+      width: 100%;
+      transition: width 0.3s ease;
+    }
+    .stat-text {
+      color: #fff;
+      font-size: 0.9em;
+      font-weight: bold;
+      min-width: 40px;
+      text-align: right;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    /* Styles pour l'inventaire */
+    .inventory-overlay {
+      position: fixed;
+      top: 5em;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      justify-content: center;
+      align-items: flex-start;
+      z-index: 2000;
+      padding-top: 1em;
+    }
+    .inventory-container {
+      background: rgba(30, 30, 30, 0.95);
+      padding: 2em;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: calc(80vh - 5em);
+      overflow-y: auto;
+    }
+    .inventory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5em;
+    }
+    .inventory-title {
+      font-size: 1.5em;
+      color: #f2f2f2;
+      margin: 0;
+    }
+    .inventory-close {
+      background: none;
+      border: none;
+      color: #f2f2f2;
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 0.5em;
+    }
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1em;
+      margin-bottom: 1.5em;
+    }
+    .inventory-slot {
+      aspect-ratio: 1;
+      background: rgba(40, 40, 40, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .inventory-slot:hover {
+      border-color: #4caf50;
+      transform: translateY(-2px);
+    }
+    .inventory-slot.empty {
+      border-style: dashed;
+    }
+    .item-icon {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+    .item-name {
+      font-size: 0.9em;
+      text-align: center;
+      color: #f2f2f2;
+    }
+    .item-quantity {
+      position: absolute;
+      bottom: 0.2em;
+      right: 0.2em;
+      background: rgba(0, 0, 0, 0.8);
+      color: #f2f2f2;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.8em;
+    }
+    .inventory-info {
+      background: rgba(40, 40, 40, 0.95);
+      padding: 1em;
+      border-radius: 8px;
+      margin-top: 1em;
+    }
+    .inventory-info h3 {
+      margin: 0 0 0.5em 0;
+      color: #f2f2f2;
+    }
+    .inventory-info p {
+      margin: 0;
+      color: #aaa;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body class="fade-in">
+  <div class="stats-container">
+    <div class="stat-bar">
+      <div class="health-icon">❤️</div>
+      <div class="stat-bar-container">
+        <div class="health-fill" id="healthFill"></div>
+      </div>
+      <div class="stat-text" id="healthText">20/20</div>
+    </div>
+    <div class="stat-bar">
+      <div class="energy-icon">⚡</div>
+      <div class="stat-bar-container">
+        <div class="energy-fill" id="energyFill"></div>
+      </div>
+      <div class="stat-text" id="energyText">14/14</div>
+    </div>
+  </div>
+  <button class="menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  
+  <div class="menu-overlay"></div>
+  
+  <div class="menu-content">
+    <a href="#" class="menu-item" id="continueBtn">Continuer</a>
+    <a href="#" class="menu-item" id="saveBtn">Sauvegarder</a>
+    <a href="#" class="menu-item" id="loadBtn">Charger</a>
+    <a href="#" class="menu-item" id="inventoryBtn">Inventaire</a>
+    <a href="#" class="menu-item" id="optionsBtn">Options</a>
+    <a href="game-menu.html" class="menu-item">Retour au menu principal</a>
+  </div>
+
+  <!-- Overlay de l'inventaire -->
+  <div class="inventory-overlay" id="inventoryOverlay">
+    <div class="inventory-container">
+      <div class="inventory-header">
+        <h2 class="inventory-title">Inventaire</h2>
+        <button class="inventory-close" id="inventoryClose">&times;</button>
+      </div>
+      <div class="inventory-grid" id="inventoryGrid">
+        <!-- Les slots d'inventaire seront générés dynamiquement -->
+      </div>
+      <div class="inventory-info" id="inventoryInfo">
+        <h3>Sélectionnez un objet</h3>
+        <p>Cliquez sur un objet pour voir ses détails et les actions possibles.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-container">
+    <h1>Survie : Île Zéro</h1>
+    <div class="game-content">
+      <p class="game-text">Vous vous réveillez sur la plage, le soleil commence à se coucher. Votre avion s'est écrasé sur cette île mystérieuse. Vous devez survivre et découvrir les secrets de ce lieu.</p>
+      <div class="choices-container">
+        <button class="choice-btn">Explorer la plage</button>
+        <button class="choice-btn">Chercher des survivants</button>
+        <button class="choice-btn">Construire un abri</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html> 

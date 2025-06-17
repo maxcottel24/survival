@@ -1,0 +1,475 @@
+{
+  "regions": {
+    "nord": {
+      "name": "Région Nord",
+      "description": "Territoire sauvage, ancien et froid",
+      "zones": [
+        {
+          "id": "nord_foret",
+          "name": "Forêt du Nord",
+          "description": "Une forêt dense et humide, où le silence règne… sauf quand quelque chose craque dans les buissons.",
+          "type": "forêt",
+          "ressources": ["bâtons", "baies", "animaux"],
+          "danger": { "zombies": "faible", "terrain": "faible" },
+          "connexions": ["nord_cabane", "nord_falaise", "nord_ruines"],
+          "effets": []
+        },
+        {
+          "id": "nord_cabane",
+          "name": "Cabane Isolée",
+          "description": "Une vieille cabane en bois rongée par la moisissure. Quelqu'un y a vécu… il y a longtemps.",
+          "type": "structures",
+          "ressources": ["objets abandonnés", "matériaux"],
+          "danger": { "zombies": "faible", "terrain": "faible" },
+          "connexions": ["nord_foret", "nord_sommet"],
+          "effets": []
+        },
+        {
+          "id": "nord_sommet",
+          "name": "Sommet Venté",
+          "description": "Un pic rocheux battu par les vents. On y voit très loin… quand le brouillard se lève.",
+          "type": "hauteurs",
+          "danger": { "zombies": "faible", "terrain": "faible" },
+          "connexions": ["nord_cabane", "nord_plaine"],
+          "effets": []
+        },
+        {
+          "id": "nord_plaine",
+          "name": "Plaine Brumeuse",
+          "description": "Une plaine presque plate, mais toujours couverte d'un voile blanc. L'humidité y engourdit l'esprit.",
+          "type": "plaine",
+          "ressources": ["plantes médicinales", "eau stagnante"],
+          "danger": { "zombies": "faible", "terrain": "moyen" },
+          "connexions": ["nord_sommet", "nord_ruines", "ouest_champ", "centre_parc"],
+          "effets": [
+            {
+              "type": "brume",
+              "description": "Risque de se perdre : test d'observation requis pour ne pas changer de zone."
+            }
+          ]
+        },
+        {
+          "id": "nord_ruines",
+          "name": "Ruines Oubliées",
+          "description": "Des fondations de pierre effondrées. Quelque chose d'ancien a brûlé ici. Peut-être quelqu'un.",
+          "type": "ruines",
+          "ressources": ["métal rouillé", "objets rares"],
+          "danger": { "zombies": "faible", "terrain": "moyen" },
+          "connexions": ["nord_foret", "nord_plaine"],
+          "effets": [
+            {
+              "type": "effondrement",
+              "description": "Risque d'effondrement : test d'agilité requis pour fouiller sans danger."
+            }
+          ]
+        },
+        {
+          "id": "nord_falaise",
+          "name": "Falaise Nord",
+          "description": "Une paroi abrupte qui surplombe l'océan. Trop dangereuse pour y dormir… mais parfaite pour jeter quelque chose.",
+          "type": "falaise",
+          "danger": { "zombies": "faible", "terrain": "élevé" },
+          "connexions": ["nord_foret"],
+          "ressources": ["pierre", "os", "plumes"],
+          "effets": []
+        }
+      ]
+    },
+    "ouest": {
+      "name": "Région Ouest",
+      "description": "Humide, hostile, marécageuse",
+      "zones": [
+        {
+          "id": "ouest_marecage",
+          "name": "Marécage Englouti",
+          "description": "De l'eau sombre jusqu'aux genoux, des troncs morts émergent ici et là. On n'y voit jamais clair très longtemps.",
+          "type": "marécage",
+          "ressources": ["eau impropre", "plantes rares", "champignons"],
+          "danger": "moyen",
+          "connexions": ["ouest_pont", "ouest_cabane", "ouest_champ"],
+          "effets": [
+            {
+              "type": "boue",
+              "description": "Risque d'enlisement : test d'agilité requis pour traverser sans perdre d'énergie."
+            }
+          ]
+        },
+        {
+          "id": "ouest_cabane",
+          "name": "Cabane Submergée",
+          "description": "Une petite structure à moitié engloutie. Le sol grince, l'eau coule partout.",
+          "type": "structures",
+          "ressources": ["objets pourris", "conserves", "matériaux humides"],
+          "danger": "moyen",
+          "connexions": ["ouest_marecage", "ouest_grotte"],
+          "effets": []
+        },
+        {
+          "id": "ouest_grotte",
+          "name": "Grotte Fendue",
+          "description": "Une fissure dans la roche qui s'enfonce sous la terre. Le sol est instable, l'écho étrange.",
+          "type": "grotte",
+          "ressources": ["minéraux", "matériaux solides"],
+          "danger": "moyen",
+          "connexions": ["ouest_cabane", "ouest_route"],
+          "effets": [
+            {
+              "type": "effondrement",
+              "description": "Risque d'effondrement : test d'agilité requis pour explorer sans blessure."
+            }
+          ]
+        },
+        {
+          "id": "ouest_pont",
+          "name": "Vieux Pont",
+          "description": "Un pont de bois mangé par le temps. Il tangue au moindre pas.",
+          "type": "pont",
+          "special": "peut être piégé, ou s'effondrer",
+          "danger": "moyen",
+          "connexions": ["ouest_marecage", "ouest_champ"],
+          "effets": [
+            {
+              "type": "effondrement",
+              "description": "Risque d'effondrement : test de chance ou d'agilité requis pour traverser sans danger."
+            }
+          ]
+        },
+        {
+          "id": "ouest_champ",
+          "name": "Champ Boueux",
+          "description": "Un espace dégagé mais traître. Rien ne pousse ici à part la peur de s'enliser.",
+          "type": "champ",
+          "ressources": ["herbes marécageuses", "eau"],
+          "danger": "moyen",
+          "connexions": ["ouest_pont", "ouest_marecage", "ouest_route", "nord_plaine"],
+          "effets": [
+            {
+              "type": "boue",
+              "description": "Déplacement ralenti : toutes les actions coûtent +1 action dans cette zone."
+            }
+          ]
+        },
+        {
+          "id": "ouest_route",
+          "name": "Route Détrempée",
+          "description": "Ancien chemin de gravier noyé sous les eaux. On y voit parfois des empreintes… récentes.",
+          "type": "route",
+          "ressources": ["objets abandonnés", "traces à suivre"],
+          "danger": "moyen",
+          "connexions": ["ouest_champ", "ouest_grotte", "centre_garage", "sud_sentier_ouest"],
+          "effets": []
+        }
+      ]
+    },
+    "centre": {
+      "name": "Région Centrale",
+      "description": "Ville effondrée, chaos urbain, technologie morte",
+      "zones": [
+        {
+          "id": "centre_ville",
+          "name": "Centre-Ville en Ruines",
+          "description": "Tours éventrées, vitrines brisées, silence métallique. Des panneaux publicitaires tremblotent encore.",
+          "type": "urbain",
+          "ressources": ["métal", "batteries", "débris électroniques"],
+          "danger": "élevé",
+          "connexions": ["centre_medical", "centre_garage", "centre_carrefour"],
+          "effets": [
+            {
+              "type": "embuscade (zombies)",
+              "description": "Risque d'attaque surprise par des zombies si test d'observation raté."
+            }
+          ]
+        },
+        {
+          "id": "centre_garage",
+          "name": "Garage Abandonné",
+          "description": "Des carcasses partout, outils rouillés, mais… un moteur semble encore intact.",
+          "type": "structures",
+          "ressources": ["pièces mécaniques", "moteur"],
+          "danger": "moyen",
+          "special": "indispensable pour certaines fins (montgolfière)",
+          "connexions": ["centre_ville", "centre_decharge", "ouest_route", "sud_sentier_rocheux"],
+          "effets": [
+            {
+              "type": "événement spécial",
+              "description": "Indispensable pour certaines fins (montgolfière, réparation, etc.)."
+            }
+          ]
+        },
+        {
+          "id": "centre_decharge",
+          "name": "Décharge Électrique",
+          "description": "Un enchevêtrement de câbles et transformateurs grillés.",
+          "type": "zone technique",
+          "ressources": ["fils", "batteries"],
+          "danger": "moyen",
+          "special": "possibilité de réactiver le courant",
+          "connexions": ["centre_garage", "centre_carrefour", "centre_place", "sud_crash"],
+          "effets": [
+            {
+              "type": "zone toxique",
+              "description": "Risque d'intoxication ou d'électrocution : perte d'énergie à chaque tour passé dans la zone."
+            }
+          ]
+        },
+        {
+          "id": "centre_carrefour",
+          "name": "Carrefour Fantôme",
+          "description": "Un ancien croisement d'avenues, jonché de carcasses rouillées.",
+          "type": "route urbaine",
+          "ressources": ["objets dans les coffres", "nourriture oubliée"],
+          "danger": "élevé",
+          "connexions": ["centre_ville", "centre_decharge", "centre_place", "sud_crash"],
+          "effets": [
+            {
+              "type": "embuscade (zombies)",
+              "description": "Risque d'attaque surprise par des zombies coincés dans les voitures."
+            }
+          ]
+        },
+        {
+          "id": "centre_place",
+          "name": "Place Centrale",
+          "description": "Ancienne place de marché devenue champ de ruines.",
+          "type": "espace ouvert",
+          "danger": "élevé",
+          "connexions": ["centre_carrefour", "centre_parc", "centre_medical", "est_quartier"],
+          "ressources": ["débris", "objets abandonnés"],
+          "effets": [
+            {
+              "type": "visibilité réduite",
+              "description": "Zone très exposée : malus pour se cacher ou éviter les dangers."
+            }
+          ]
+        },
+        {
+          "id": "centre_parc",
+          "name": "Parc Effondré",
+          "description": "Sol creusé de cratères, balançoires brisées.",
+          "type": "espace vert",
+          "ressources": ["bois", "eau sale", "objets oubliés"],
+          "danger": "moyen",
+          "connexions": ["centre_place", "centre_decharge", "nord_plaine"],
+          "effets": [
+            {
+              "type": "effondrement",
+              "description": "Risque d'effondrement : test d'agilité requis pour fouiller sans danger."
+            }
+          ]
+        },
+        {
+          "id": "centre_medical",
+          "name": "Bâtiment Médical",
+          "description": "Centre de soins abandonné, lugubre et silencieux.",
+          "type": "structures",
+          "ressources": ["kit de soin", "objets rares"],
+          "danger": "élevé",
+          "connexions": ["centre_place", "centre_ville"],
+          "effets": [
+            {
+              "type": "embuscade (zombies)",
+              "description": "Risque d'attaque surprise par des zombies dans les couloirs."
+            }
+          ]
+        }
+      ]
+    },
+    "est": {
+      "name": "Région Est",
+      "description": "Plages oubliées, calme trompeur, lumière douce",
+      "zones": [
+        {
+          "id": "est_quartier",
+          "name": "Quartier Oublié",
+          "description": "Ancien quartier résidentiel à l'abandon. Les vitres sont brisées, la végétation reprend ses droits.",
+          "type": "résidentiel",
+          "ressources": ["objets domestiques", "matériaux", "nourriture périmée"],
+          "danger": "moyen",
+          "connexions": ["centre_place", "est_plage", "est_tour"],
+          "effets": []
+        },
+        {
+          "id": "est_plage",
+          "name": "Plage Blanche",
+          "description": "Du sable fin, des vagues douces… un endroit presque paisible.",
+          "type": "plage",
+          "ressources": ["bois flotté", "poissons", "objets échoués"],
+          "danger": "faible",
+          "special": "caisses échouées aléatoires",
+          "connexions": ["est_quartier", "est_dune", "est_recif"],
+          "effets": [
+            {
+              "type": "sable",
+              "description": "Déplacement ralenti : traverser la plage coûte 2 actions."
+            },
+            {
+              "type": "loot rare",
+              "description": "Chance de trouver un objet rare dans une caisse échouée (test de fouille)."
+            }
+          ]
+        },
+        {
+          "id": "est_dune",
+          "name": "Dune Érodée",
+          "description": "Grande dune balayée par les vents, offrant une vue dégagée.",
+          "type": "hauteurs",
+          "danger": "faible",
+          "connexions": ["est_plage", "est_cabanon", "est_tour", "est_recif"],
+          "ressources": ["sable", "coquillages", "herbes sèches"],
+          "effets": [
+            {
+              "type": "sable",
+              "description": "Déplacement ralenti : gravir la dune coûte 2 actions."
+            }
+          ]
+        },
+        {
+          "id": "est_recif",
+          "name": "Récif Tranchant",
+          "description": "Des roches noires sortent de l'eau comme des dents.",
+          "type": "falaise",
+          "ressources": ["eau salée", "coquillages", "objets coincés"],
+          "danger": "moyen",
+          "connexions": ["est_plage", "est_dune"]
+        },
+        {
+          "id": "est_cabanon",
+          "name": "Cabanon des Gardiens",
+          "description": "Un petit bâtiment délabré, vestige d'un temps révolu.",
+          "type": "structures",
+          "ressources": ["rations anciennes", "kit de soin"],
+          "danger": "faible",
+          "connexions": ["est_dune", "est_sentier"]
+        },
+        {
+          "id": "est_sentier",
+          "name": "Sentier Côtier",
+          "description": "Un chemin étroit longeant la falaise. Glissant, mais discret.",
+          "type": "passage",
+          "danger": "moyen",
+          "connexions": ["est_cabanon", "sud_campement"]
+        },
+        {
+          "id": "est_tour",
+          "name": "Tour Radio",
+          "description": "Ancienne structure de communication encore debout. Des signaux y passent parfois.",
+          "type": "structures",
+          "ressources": ["composants électroniques", "batterie"],
+          "danger": "moyen",
+          "special": "déclenchement de messages (appel de secours, énigmes…)",
+          "connexions": ["est_quartier", "est_dune"],
+          "effets": [
+            {
+              "type": "événement spécial",
+              "description": "Déclenchement d'un événement unique (radio, message, énigme…) avec prérequis à définir."
+            }
+          ]
+        }
+      ]
+    },
+    "sud": {
+      "name": "Région Sud",
+      "description": "Zone d'impact, débris et chaleur métallique",
+      "zones": [
+        {
+          "id": "sud_crash",
+          "name": "Zone de Crash",
+          "description": "Le cœur de la catastrophe. La carlingue principale repose dans la végétation brûlée.",
+          "type": "zone spéciale",
+          "ressources": ["objets de valeur", "médicaments", "documents"],
+          "danger": "élevé",
+          "special": "des PNJ du personnel de bord morts peuvent y être retrouvés",
+          "connexions": ["sud_ravin", "sud_campement", "est_sentier", "sud_bunker", "centre_carrefour"],
+          "effets": [
+            {
+              "type": "loot rare",
+              "description": "Chance de trouver un objet rare ou vital dans l'épave (test de fouille)."
+            }
+          ]
+        },
+        {
+          "id": "sud_ravin",
+          "name": "Ravin Brisé",
+          "description": "Un passage naturel encaissé entre deux parois rocheuses. Discret, mais risqué.",
+          "type": "passage",
+          "ressources": ["plantes médicinales", "eau"],
+          "danger": "moyen",
+          "connexions": ["sud_crash", "sud_bunker"],
+          "effets": [
+            {
+              "type": "chute",
+              "description": "Risque de chute : test d'agilité requis pour traverser sans blessure."
+            }
+          ]
+        },
+        {
+          "id": "sud_campement",
+          "name": "Campement d'Urgence",
+          "description": "Des tentes renversées, du matériel médical abandonné. Traces de lutte.",
+          "type": "structures",
+          "ressources": ["kit de soin", "conserves", "matériel léger"],
+          "danger": "moyen",
+          "special": "bon abri temporaire",
+          "connexions": ["sud_crash", "est_sentier", "sud_colline"],
+          "effets": []
+        },
+        {
+          "id": "sud_bunker",
+          "name": "Bunker BZA",
+          "description": "Une entrée de bunker scellée, à demi enfouie par un glissement de terrain.",
+          "type": "structures",
+          "special": "nécessite une carte d'accès (3 sur l'île)",
+          "ressources": ["objets militaires", "système de communication"],
+          "danger": "élevé",
+          "connexions": ["sud_crash", "sud_ravin", "sud_sentier_ouest"],
+          "effets": [
+            {
+              "type": "accès restreint",
+              "description": "Nécessite une carte d'accès pour entrer dans le bunker."
+            }
+          ]
+        },
+        {
+          "id": "sud_colline",
+          "name": "Colline Fendue",
+          "description": "Une colline fracturée, idéale pour observer ou fuir.",
+          "type": "hauteurs",
+          "danger": "moyen",
+          "connexions": ["sud_campement", "sud_sentier_rocheux"],
+          "ressources": ["herbes", "pierres"],
+          "effets": []
+        },
+        {
+          "id": "sud_sentier_ouest",
+          "name": "Sentier Ouest",
+          "description": "Une ancienne route de maintenance couverte de ronces.",
+          "type": "passage",
+          "danger": "moyen",
+          "connexions": ["sud_bunker", "ouest_route"],
+          "ressources": ["ronces", "branches"],
+          "effets": [
+            {
+              "type": "boue",
+              "description": "Déplacement ralenti : toutes les actions coûtent +1 action dans cette zone."
+            }
+          ]
+        },
+        {
+          "id": "sud_sentier_rocheux",
+          "name": "Sentier Rocheux",
+          "description": "Un chemin discret vers la zone industrielle du Centre.",
+          "type": "liaison",
+          "danger": "faible",
+          "connexions": ["sud_colline", "centre_garage"],
+          "ressources": ["cailloux", "poussière"],
+          "effets": [
+            {
+              "type": "chute",
+              "description": "Risque de chute : test d'agilité requis pour traverser sans blessure."
+            }
+          ]
+        }
+      ]
+    }
+  }
+} 

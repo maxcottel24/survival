@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1746361806045",
+    "email": "frozenkhaos.nity@gmail.com",
+    "username": "frzenkhaos",
+    "password": "$2b$10$DqOABwHk77ZKrekql3XL9.s7m8HsT0YkI.LxVXGGuqGahvRxZ8QmW",
+    "createdAt": "2025-05-04T12:30:06.045Z",
+    "lastLogin": "2025-05-18T00:05:24.218Z",
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "encounteredCharacters": []
+  }
+]

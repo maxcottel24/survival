@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu du Jeu - Survie : Île Zéro</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('image.png') center center / cover no-repeat fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .game-title {
+      margin-top: 2.2em;
+      margin-bottom: 2em;
+      font-size: 2.7em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 0 4px 16px #000a, 0 1px 0 #fff2;
+      z-index: 2;
+      text-align: center;
+    }
+    .menu-container {
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+    }
+    .menu-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2em;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 2em;
+    }
+    .menu-btn {
+      width: 100%;
+      max-width: 340px;
+      padding: 1.1em 0;
+      font-size: 1.15em;
+      background: rgba(30,30,30,0.82);
+      color: #f2f2f2;
+      border: 2px solid #f2f2f2;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, border 0.25s, transform 0.18s;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px #0005;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .menu-btn:hover {
+      background: #f2f2f2;
+      color: #232323;
+      border-color: #4caf50;
+      transform: translateY(-2px) scale(1.03);
+    }
+    .stats-section {
+      background-color: rgba(35,35,35,0.85);
+      padding: 1em;
+      border-radius: 8px;
+      margin-top: 1em;
+      text-align: left;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 2px 8px #0005;
+    }
+    /* Badge utilisateur en bas à droite */
+    .user-badge-container {
+      position: fixed;
+      right: 1.2em;
+      bottom: 1.2em;
+      z-index: 120;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .user-badge {
+      background: #232323ee;
+      color: #f2f2f2;
+      border-radius: 22px;
+      padding: 0.35em 0.9em 0.35em 0.7em;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px #0006;
+      font-size: 0.98em;
+      gap: 0.4em;
+      min-width: 0;
+      height: 38px;
+      transition: box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .user-badge .status-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #4caf50;
+      display: inline-block;
+      margin-right: 0.2em;
+      border: 2px solid #fff2;
+    }
+    .user-badge .username {
+      font-weight: bold;
+      margin-right: 0.2em;
+      font-size: 0.98em;
+    }
+    .user-badge .connected {
+      font-size: 0.92em;
+      color: #aaffaa;
+      font-weight: 500;
+      margin-right: 0.2em;
+    }
+    .logout-float-btn {
+      position: absolute;
+      right: 0;
+      bottom: 48px;
+      background: #ff4444;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 0.32em 1.1em;
+      font-size: 0.98em;
+      font-weight: 500;
+      box-shadow: 0 2px 8px #0006;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.32s cubic-bezier(.4,1.4,.6,1), transform 0.32s cubic-bezier(.4,1.4,.6,1);
+    }
+    .logout-float-btn:hover {
+      background: #ff2222;
+    }
+    .user-badge-container:hover .logout-float-btn,
+    .user-badge:focus + .logout-float-btn {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="game-title">SURVIE : ÎLE ZÉRO</div>
+  <div class="menu-container">
+    <div class="menu-options">
+      <button class="menu-btn" onclick="window.location.href='create-player.html'">Nouvelle partie</button>
+      <button class="menu-btn" onclick="window.location.href='profiles.html'">Charger une partie</button>
+      <button class="menu-btn" onclick="continueGame()">Continuer</button>
+      <button class="menu-btn" onclick="showOptions()">Options</button>
+      <button class="menu-btn" onclick="window.location.href='character-library.html'">Bibliothèque des personnages</button>
+    </div>
+    <div class="stats-section" id="statsSection">
+      Statistiques en cours de chargement...
+    </div>
+  </div>
+  <div class="user-badge-container">
+    <div class="user-badge" id="userBadge" style="display:none;" tabindex="0">
+      <span class="status-dot"></span>
+      <span class="username" id="badgeUsername"></span>
+      <span class="connected">Connecté</span>
+    </div>
+    <button class="logout-float-btn" id="logoutBtn" onclick="logout()">Se déconnecter</button>
+  </div>
+  <script>
+    async function loadProfile() {
+      const accountId = localStorage.getItem('accountId');
+      if (!accountId) {
+        window.location.href = '/';
+        return;
+      }
+      try {
+        const response = await fetch(`/api/accounts/${accountId}`);
+        if (!response.ok) {
+          throw new Error('Compte non trouvé');
+        }
+        const account = await response.json();
+        // Afficher le badge utilisateur
+        document.getElementById('badgeUsername').textContent = account.username;
+        document.getElementById('userBadge').style.display = 'flex';
+        // Statistiques
+        document.getElementById('statsSection').innerHTML =
+          `<strong>Statistiques :</strong><br>` +
+          `Parties jouées : ${account.stats.gamesPlayed}<br>` +
+          `Meilleur score : ${account.stats.bestScore}<br>` +
+          `Temps de jeu : ${account.stats.playTime} min<br>` +
+          `Survivants rencontrés : ${account.stats.survivorsMet}`;
+      } catch (error) {
+        document.getElementById('statsSection').innerHTML = 'Erreur lors du chargement du profil.';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('accountId');
+      window.location.href = '/';
+    }
+
+    function startNewGame() {
+      alert('Fonctionnalité à venir : Nouvelle partie');
+    }
+    function continueGame() {
+      const profileId = localStorage.getItem('survival_current_profile');
+      if (!profileId) {
+        alert('Aucune partie en cours.');
+        return;
+      }
+      window.location.href = 'game.html';
+    }
+    function showOptions() {
+      alert('Fonctionnalité à venir : Options');
+    }
+
+    window.onload = loadProfile;
+  </script>
+</body>
+</html> 

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bibliothèque des Personnages - Survie : Île Zéro</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('image.png') center center / cover no-repeat fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.45);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .library-container, .character-grid, .character-card, .back-button {
+      position: relative;
+      z-index: 1;
+    }
+
+    .library-container {
+      background-color: #1e1e1e;
+      padding: 2em;
+      border-radius: 10px;
+      margin: 2em;
+      width: 80%;
+      max-width: 800px;
+    }
+
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1em;
+      margin-top: 2em;
+    }
+
+    .character-card {
+      background-color: #2e2e2e;
+      padding: 1em;
+      border-radius: 8px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .character-card:hover {
+      transform: scale(1.05);
+    }
+
+    .character-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 1em;
+    }
+
+    .character-card h3 {
+      margin: 0.5em 0;
+    }
+
+    .character-card p {
+      margin: 0.5em 0;
+      font-size: 0.9em;
+    }
+
+    .character-card .status {
+      font-style: italic;
+      color: #888;
+    }
+
+    .character-card.encountered {
+      border: 2px solid #4CAF50;
+    }
+
+    .character-card.not-encountered {
+      opacity: 0.7;
+    }
+
+    .character-card.not-encountered img {
+      filter: brightness(0) invert(0.1);
+    }
+
+    .character-card.not-encountered .character-info {
+      display: none;
+    }
+
+    .character-card.not-encountered::after {
+      content: "Personnage à découvrir";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      border-radius: 5px;
+      font-style: italic;
+      color: #888;
+      width: 80%;
+      text-align: center;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 1em;
+      left: 1em;
+      padding: 10px 20px;
+      background-color: #1e1e1e;
+      color: #f2f2f2;
+      border: 2px solid #f2f2f2;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .back-button:hover {
+      background-color: #f2f2f2;
+      color: #1e1e1e;
+    }
+  </style>
+</head>
+<body>
+  <a href="/game-menu" class="back-button">← Retour au menu</a>
+
+  <div class="library-container">
+    <h1>Bibliothèque des Personnages</h1>
+    <p>Découvrez les survivants que vous pourrez rencontrer sur l'île.</p>
+
+    <div class="character-grid" id="characterGrid">
+      <!-- Les personnages seront chargés dynamiquement -->
+    </div>
+  </div>
+
+  <script>
+    // Liste des personnages (à remplacer par une API plus tard)
+    const characters = [
+      {
+        id: 1,
+        name: "Alex",
+        image: "https://via.placeholder.com/200x200?text=Alex",
+        description: "Un ancien militaire qui a survécu à de nombreuses situations dangereuses.",
+        status: "À rencontrer"
+      },
+      {
+        id: 2,
+        name: "Sarah",
+        image: "https://via.placeholder.com/200x200?text=Sarah",
+        description: "Une biologiste qui étudie la faune et la flore de l'île.",
+        status: "À rencontrer"
+      },
+      {
+        id: 3,
+        name: "Marcus",
+        image: "https://via.placeholder.com/200x200?text=Marcus",
+        description: "Un chasseur expérimenté qui connaît bien les techniques de survie.",
+        status: "À rencontrer"
+      },
+      {
+        id: 4,
+        name: "Lena",
+        image: "https://via.placeholder.com/200x200?text=Lena",
+        description: "Une archéologue qui cherche des indices sur l'histoire de l'île.",
+        status: "À rencontrer"
+      }
+    ];
+
+    // Fonction pour créer une carte de personnage
+    function createCharacterCard(character, isEncountered) {
+      const card = document.createElement('div');
+      card.className = `character-card ${isEncountered ? 'encountered' : 'not-encountered'}`;
+      
+      card.innerHTML = `
+        <img src="${character.image}" alt="${character.name}">
+        <div class="character-info">
+          <h3>${character.name}</h3>
+          <p>${character.description}</p>
+          <p class="status">${isEncountered ? 'Rencontré' : 'À rencontrer'}</p>
+        </div>
+      `;
+      
+      return card;
+    }
+
+    // Chargement des personnages
+    window.onload = async function() {
+      try {
+        // Récupérer le profil actuel
+        const profilesResponse = await fetch('/api/profiles');
+        const profiles = await profilesResponse.json();
+        
+        if (profiles.length === 0) {
+          window.location.href = '/';
+          return;
+        }
+
+        const currentProfile = profiles[0];
+        const characterGrid = document.getElementById('characterGrid');
+        
+        // Afficher les personnages en fonction de ceux rencontrés
+        characters.forEach(character => {
+          const isEncountered = currentProfile.encounteredCharacters && currentProfile.encounteredCharacters.includes(character.id);
+          const card = createCharacterCard(character, isEncountered);
+          characterGrid.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Erreur lors du chargement des personnages:', error);
+        // En cas d'erreur, afficher tous les personnages comme non rencontrés
+        const characterGrid = document.getElementById('characterGrid');
+        characters.forEach(character => {
+          const card = createCharacterCard(character, false);
+          characterGrid.appendChild(card);
+        });
+      }
+    };
+  </script>
+</body>
+</html> 

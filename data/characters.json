@@ -1,0 +1,200 @@
+[
+  {
+    "name": "Léa Salamé",
+    "gender": "femme",
+    "age": 39,
+    "traits": ["Charismatique", "Hypocrite"],
+    "skills": ["Charismatique"],
+    "description": "Prête à tout pour survivre.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "sagesse": 9,
+      "charisme": 15
+    }
+  },
+  {
+    "name": "Gérard Depardieu",
+    "gender": "homme",
+    "age": 74,
+    "traits": ["Tacticien", "Gourmand"],
+    "skills": ["Tacticien", "Gourmand"],
+    "description": "Rustre mais redoutable. Instinctif, imprévisible.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 8,
+      "intelligence": 13,
+      "sagesse": 10,
+      "charisme": 10
+    }
+  },            
+  {
+    "name": "Nicolas Sarkozy",
+    "gender": "homme",
+    "age": 68,
+    "traits": ["Charismatique", "Opportuniste", "Justicier"],
+    "skills": ["Charismatique"],
+    "description": "Dominant, autoritaire, manipulateur.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 12,
+      "constitution": 10,
+      "intelligence": 10,
+      "sagesse": 11,
+      "charisme": 13
+    }
+  },
+  {
+    "name": "Monsieur XXIV",
+    "gender": "inconnu",
+    "age": null,
+    "traits": ["Mystérieux", "Tacticien"],
+    "skills": ["Tacticien"],
+    "description": "Discret, intelligent, difficile à cerner.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 10,
+      "intelligence": 14,
+      "sagesse": 12,
+      "charisme": 10
+    }
+  },
+  {
+    "name": "Pascal Mulard",
+    "gender": "homme",
+    "age": 51,
+    "traits": ["Hermétique", "Froid"],
+    "skills": [],
+    "description": "Solitaire de génie, indifférent aux autres.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 10,
+      "intelligence": 10,
+      "sagesse": 12,
+      "charisme": 7
+    }
+  },
+  {
+    "name": "Evan Martinez",
+    "gender": "homme",
+    "age": 22,
+    "traits": ["Gourmand", "Empathique"],
+    "skills": ["Gourmand"],
+    "description": "Attiré par la nourriture, mais doux et protecteur.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 9,
+      "constitution": 8,
+      "intelligence": 10,
+      "sagesse": 10,
+      "charisme": 12
+    }
+  },
+  {
+    "name": "Samy Kidari",
+    "gender": "homme",
+    "age": 22,
+    "traits": ["Altruiste"],
+    "skills": ["Ingénieur"],
+    "description": "Dévoué, utile, toujours prêt à aider.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 10,
+      "intelligence": 9,
+      "sagesse": 10,
+      "charisme": 12
+    }
+  },
+  {
+    "name": "Maxence Cottel",
+    "gender": "homme",
+    "age": 22,
+    "traits": ["Opportuniste", "Rancunier", "Paranoïaque"],
+    "skills": [],
+    "description": "Rusé, méfiant, rancune tenace.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 13,
+      "constitution": 12,
+      "intelligence": 10,
+      "sagesse": 12,
+      "charisme": 6
+    }
+  },
+  {
+    "name": "Angy Beauval",
+    "gender": "homme",
+    "age": 20,
+    "traits": ["Gourmand"],
+    "skills": ["Ingénieur", "Gourmand"],
+    "description": "Innovant, débrouillard, mais obnubilé par la bouffe.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 8,
+      "intelligence": 10,
+      "sagesse": 10,
+      "charisme": 10
+    }
+  },
+  {
+    "name": "Naïm Bouanane",
+    "gender": "homme",
+    "age": 21,
+    "traits": ["Mystérieux", "Froid"],
+    "skills": [],
+    "description": "Silencieux, inquiétant, insaisissable.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 10,
+      "constitution": 10,
+      "intelligence": 11,
+      "sagesse": 12,
+      "charisme": 9
+    }
+  },
+  {
+    "name": "Lando Norris",
+    "gender": "homme",
+    "age": 24,
+    "traits": ["Charismatique", "Opportuniste", "Tacticien"],
+    "skills": ["Tacticien"],
+    "description": "Jeune pilote talentueux, vif d'esprit et toujours prêt à relever des défis.",
+    "stats": {
+      "pv": 10,
+      "energie": 14,
+      "force": 10,
+      "dexterite": 15,
+      "constitution": 12,
+      "intelligence": 13,
+      "sagesse": 11,
+      "charisme": 14
+    }
+  }
+] 
