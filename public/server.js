@@ -1,1 +1,0 @@
-res.sendFile(path.join(__dirname, 'public', 'game-menu.html')); 
