@@ -105,21 +105,6 @@ app.post('/api/profiles/:id/encountered-characters', (req, res) => {
   }
 });
 
-// Route pour la page d'accueil
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'survival-homepage.html'));
-});
-
-// Route pour le menu du jeu
-app.get('/game-menu', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'game-menu.html'));
-});
-
-// Route pour la bibliothèque des personnages
-app.get('/character-library', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'character-library.html'));
-});
-
 // Route pour récupérer tous les comptes
 app.get('/api/accounts', (req, res) => {
   try {
@@ -290,6 +275,14 @@ app.put('/api/accounts/:id/encountered-characters', (req, res) => {
     console.error('Erreur lors de la mise à jour des personnages rencontrés:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour des personnages rencontrés' });
   }
+});
+
+// Sert les fichiers statiques du build React
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch-all pour le routage React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Démarrer le serveur
