@@ -2,6 +2,7 @@ import { observable } from "@legendapp/state";
 import { Profile, GameEvent, InventoryItem, ItemType, ItemEffect } from "../types/game.types";
 import { getObjetEffects, fouillerZone } from "../data/lootData";
 import gameService from "../services/gameService";
+import bgImage from "../assets/background.jpg";
 
 // Store principal de l'application
 export const state$ = observable({

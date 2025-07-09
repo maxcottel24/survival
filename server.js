@@ -2,15 +2,17 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
+  credentials: true
+}));
+const PORT = process.env.PORT || 3001;
 
 // Middleware pour parser le JSON
 app.use(express.json());
-
-// Servir les fichiers statiques depuis le dossier public
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Créer le dossier data s'il n'existe pas
 if (!fs.existsSync('data')) {
@@ -22,18 +24,18 @@ if (!fs.existsSync('data/profiles.json')) {
   fs.writeFileSync('data/profiles.json', '[]');
 }
 
-// // Routes pour les profils
-// app.get('/api/profiles', (req, res) => {
-//   try {
-//     console.log('Lecture des profils...');
-//     const profiles = JSON.parse(fs.readFileSync('data/profiles.json', 'utf8') || '[]');
-//     console.log('Profils trouvés:', profiles);
-//     res.json(profiles);
-//   } catch (error) {
-//     console.error('Erreur lors de la lecture des profils:', error);
-//     res.status(500).json({ error: 'Erreur lors de la lecture des profils' });
-//   }
-// });
+// Routes pour les profils
+app.get('/api/profiles', (req, res) => {
+  try {
+    console.log('Lecture des profils...');
+    const profiles = JSON.parse(fs.readFileSync('data/profiles.json', 'utf8') || '[]');
+    console.log('Profils trouvés:', profiles);
+    res.json(profiles);
+  } catch (error) {
+    console.error('Erreur lors de la lecture des profils:', error);
+    res.status(500).json({ error: 'Erreur lors de la lecture des profils' });
+  }
+});
 
 app.post('/api/profiles', (req, res) => {
   try {
@@ -277,13 +279,17 @@ app.put('/api/accounts/:id/encountered-characters', (req, res) => {
   }
 });
 
-// Sert les fichiers statiques du build React
-app.use(express.static(path.join(__dirname, 'dist')));
+// En mode développement, on ne sert que les API
+// Les fichiers statiques sont servis par Vite
+if (process.env.NODE_ENV === 'production') {
+  // Sert les fichiers statiques du build React
+  app.use(express.static(path.join(__dirname, 'dist')));
 
-// Catch-all pour le routage React
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+  // Catch-all pour le routage React
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}
 
 // Démarrer le serveur
 app.listen(PORT, () => {

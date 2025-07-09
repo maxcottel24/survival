@@ -1,11 +1,11 @@
-import zonesData from '../../data/zones.json'
-import charactersData from '../../data/characters.json'
+import zonesData from '../data/zones.json'
+import charactersData from '../data/characters.json'
 
 export interface Zone {
   id: string
   name: string
   description: string
-  types: string[]
+  type: string // Correction: c'est 'type' et pas 'types' dans le JSON
   ressources?: string[]
   danger: any
   connexions: string[]
@@ -74,14 +74,19 @@ class GameService {
   }
 
   private loadZones() {
+    // Correction: extraire toutes les zones de toutes les régions
     this.zones = []
-    Object.values(zonesData.regions).forEach((region: any) => {
-      this.zones.push(...region.zones)
-    })
+    if (zonesData && zonesData.regions) {
+      Object.values(zonesData.regions).forEach((region: any) => {
+        if (region.zones && Array.isArray(region.zones)) {
+          this.zones.push(...region.zones)
+        }
+      })
+    }
   }
 
   private loadCharacters() {
-    this.characters = charactersData
+    this.characters = Array.isArray(charactersData) ? charactersData : []
   }
 
   private loadScenarios() {
@@ -204,7 +209,7 @@ class GameService {
   }
 
   // Obtenir une zone aléatoire pour le démarrage
-  getRandomStartingZone(): Zone {
+  getRandomStartingZone(): Zone | null {
     // Fonction helper pour vérifier si une zone est sûre
     const isSafeZone = (zone: Zone) => {
       if (typeof zone.danger === 'string') {
@@ -216,29 +221,27 @@ class GameService {
 
     // Filtrer les zones sûres pour le départ
     const availableZones = this.zones.filter(zone => 
-      // Éviter les zones dangereuses ou difficiles d'accès
       isSafeZone(zone) &&
-      !zone.id.includes('centre_') && // Éviter le centre-ville
-      !zone.types.some(type => type.includes('structures')) && // Éviter les bâtiments
-      !zone.types.some(type => type.includes('ruines')) && // Éviter les ruines
-      !zone.types.some(type => type.includes('grotte')) // Éviter les grottes
+      !zone.id.includes('centre_') &&
+      zone.type !== 'structures' &&
+      zone.type !== 'ruines' &&
+      zone.type !== 'grotte'
     )
     
     console.log('Zones disponibles pour le départ:', availableZones.map(z => z.name))
     
-    // Si aucune zone sûre n'est trouvée, utiliser les zones avec un danger modéré
     if (availableZones.length === 0) {
       const moderateZones = this.zones.filter(zone => 
-        !zone.id.includes('centre_') && // Toujours éviter le centre
+        !zone.id.includes('centre_') &&
         (
           (typeof zone.danger === 'string' && zone.danger === 'moyen') ||
           (typeof zone.danger === 'object' && Object.values(zone.danger).every(level => level === 'faible' || level === 'moyen'))
         )
       )
       console.log('Aucune zone sûre trouvée, utilisation des zones modérées:', moderateZones.map(z => z.name))
+      if (moderateZones.length === 0) return null
       return moderateZones[Math.floor(Math.random() * moderateZones.length)]
     }
-    
     return availableZones[Math.floor(Math.random() * availableZones.length)]
   }
 
@@ -288,7 +291,7 @@ class GameService {
     const conditions = scenario.conditions
     
     // Vérifier le type de zone
-    if (conditions.zoneTypes && !currentZone.types.some(type => conditions.zoneTypes!.includes(type))) {
+    if (conditions.zoneTypes && !currentZone.type.includes(conditions.zoneTypes[0])) { // Assuming zoneTypes is an array of one type
       return false
     }
     
@@ -397,5 +400,5 @@ class GameService {
   }
 }
 
-const gameService = new GameService();
-export default gameService; 
+const gameService = new GameService()
+export default gameService 
