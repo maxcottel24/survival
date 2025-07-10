@@ -96,12 +96,12 @@ export const gameActions = {
     const currentZone = state$.game.currentZone.get();
     if (!currentZone) return null;
     
-    // Obtenir les types de la zone actuelle
+    // Obtenir le type de la zone actuelle
     const zone = gameService.getZoneById(currentZone);
-    if (!zone || !zone.types) return null;
+    if (!zone || !zone.type) return null;
     
     // Fouiller la zone
-    const resultat = fouillerZone(zone.types);
+    const resultat = fouillerZone([zone.type]); // On passe un tableau avec le type unique
     
     if (resultat) {
       // Ajouter l'objet trouvé à l'inventaire
