@@ -1,4 +1,4 @@
-import { testFouille } from './data/lootData';
+const { testFouille } = require('./data/lootData');
 
 // Test de différentes zones
 console.log('🎮 Test du système de loot');
@@ -31,4 +31,4 @@ console.log('\n');
 
 // Test 6: Beaucoup de fouilles pour voir les statistiques
 console.log('📈 Test avec 50 fouilles (zone bois):');
-testFouille(['bois'], 50); 
+testFouille(['bois'], 50);

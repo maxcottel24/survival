@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import bgImage from '../../public/images/background.jpg'; // Import de l'image de fond
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -22,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     
-    background-image: url(${bgImage});
+    background-image: url('/images/background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

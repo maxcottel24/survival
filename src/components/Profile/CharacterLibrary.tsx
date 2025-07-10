@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { PageLayout } from '../Common/PageLayout'
-import charactersData from '../../../data/characters.json'
+import charactersData from '../../data/characters.json'
 
 const Container = styled.div`
   max-width: 1200px;

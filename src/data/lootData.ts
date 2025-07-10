@@ -245,13 +245,72 @@ export const objetsEffects: Record<string, ObjetEffect> = {
   }
 };
 
+// Fonction pour normaliser le type de zone pour le lootTable
+function normalizeZoneType(type: string): string {
+  // Correction de la regex : on enlève uniquement les accents
+  const t = type.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  switch (t) {
+    case 'forêt':
+    case 'foret':
+      return 'bois';
+    case 'plaine':
+      return 'plaine';
+    case 'marécage':
+    case 'marecage':
+      return 'marécage';
+    case 'colline':
+      return 'colline';
+    case 'falaise':
+      return 'falaise';
+    case 'ruines':
+      return 'ruines';
+    case 'urbain':
+      return 'urbain';
+    case 'campement':
+      return 'campement';
+    case 'grotte':
+      return 'grotte';
+    case 'plage':
+      return 'plage';
+    case 'récif':
+    case 'recif':
+      return 'récif';
+    case 'décharge':
+    case 'decharge':
+      return 'décharge';
+    case 'garage':
+      return 'garage';
+    case 'inondé':
+    case 'inonde':
+      return 'inondé';
+    case 'rocheux':
+      return 'rocheux';
+    case 'espace vert':
+      return 'espace_vert';
+    case 'hopital':
+    case 'hôpital':
+      return 'hopital';
+    case 'cabane':
+      return 'cabane';
+    case 'bunker':
+      return 'bunker';
+    case 'passage':
+      return 'passage';
+    case 'zone du crash':
+      return 'zone_du_crash';
+    default:
+      return t;
+  }
+}
+
 // Fonction pour obtenir les loots disponibles dans une zone
 export function getLootsForZone(zoneTypes: string[]) {
   const ressources = new Set<string>();
   const objets = new Set<string>();
   
   zoneTypes.forEach(type => {
-    const loots = lootTable[type];
+    const normalizedType = normalizeZoneType(type);
+    const loots = lootTable[normalizedType];
     if (loots) {
       loots.ressources?.forEach(r => ressources.add(r));
       loots.objets?.forEach(o => objets.add(o));
@@ -280,7 +339,8 @@ export function fouillerZone(zoneTypes: string[]) {
 function getRandomRessourceFromZone(zoneTypes: string[]) {
   const ressources = new Set<string>();
   zoneTypes.forEach(type => {
-    const loots = lootTable[type];
+    const normalizedType = normalizeZoneType(type);
+    const loots = lootTable[normalizedType];
     if (loots?.ressources) {
       loots.ressources.forEach(r => ressources.add(r));
     }
@@ -296,7 +356,8 @@ function getRandomRessourceFromZone(zoneTypes: string[]) {
 function getRandomObjetFromZone(zoneTypes: string[]) {
   const objets = new Set<string>();
   zoneTypes.forEach(type => {
-    const loots = lootTable[type];
+    const normalizedType = normalizeZoneType(type);
+    const loots = lootTable[normalizedType];
     if (loots?.objets) {
       loots.objets.forEach(o => objets.add(o));
     }

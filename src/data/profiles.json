@@ -1,0 +1,112 @@
+[
+  {
+    "id": "1750071456909",
+    "name": "Max",
+    "gender": "homme",
+    "age": 22,
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "inventaire": [
+      {
+        "name": "Radio",
+        "type": "outil",
+        "description": "Permet d'écouter les annonces du soir."
+      }
+    ],
+    "createdAt": "2025-06-16T10:57:36.909Z",
+    "lastPlayed": "2025-06-16T10:57:36.909Z",
+    "encounteredCharacters": []
+  },
+  {
+    "id": "1750071483881",
+    "name": "Max",
+    "gender": "homme",
+    "age": 22,
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "inventaire": [
+      {
+        "name": "Radio",
+        "type": "outil",
+        "description": "Permet d'écouter les annonces du soir."
+      }
+    ],
+    "createdAt": "2025-06-16T10:58:03.881Z",
+    "lastPlayed": "2025-06-16T10:58:03.881Z",
+    "encounteredCharacters": []
+  },
+  {
+    "id": "1750071531138",
+    "name": "Max",
+    "gender": "homme",
+    "age": 22,
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "inventaire": [
+      {
+        "name": "Radio",
+        "type": "outil",
+        "description": "Permet d'écouter les annonces du soir."
+      }
+    ],
+    "createdAt": "2025-06-16T10:58:51.138Z",
+    "lastPlayed": "2025-06-16T10:58:51.138Z",
+    "encounteredCharacters": []
+  },
+  {
+    "id": "1750072150486",
+    "name": "AZZEZr",
+    "gender": "homme",
+    "age": 25,
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "inventaire": [
+      {
+        "name": "Radio",
+        "type": "outil",
+        "description": "Permet d'écouter les annonces du soir."
+      }
+    ],
+    "createdAt": "2025-06-16T11:09:10.487Z",
+    "lastPlayed": "2025-06-16T11:09:10.487Z",
+    "encounteredCharacters": []
+  },
+  {
+    "id": "1750073792400",
+    "name": "addd",
+    "gender": "femme",
+    "age": 32,
+    "stats": {
+      "gamesPlayed": 0,
+      "bestScore": 0,
+      "playTime": 0,
+      "survivorsMet": 0
+    },
+    "inventaire": [
+      {
+        "name": "Radio",
+        "type": "outil",
+        "description": "Permet d'écouter les annonces du soir."
+      }
+    ],
+    "createdAt": "2025-06-16T11:36:32.400Z",
+    "lastPlayed": "2025-06-16T11:36:32.400Z",
+    "encounteredCharacters": []
+  }
+]
